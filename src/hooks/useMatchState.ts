@@ -105,6 +105,14 @@ export const useMatchState = () => {
     });
   };
 
+  // New function to update wickets directly (for UI purposes)
+  const updateWickets = (wickets: number) => {
+    setMatchState(prev => ({
+      ...prev,
+      battingTeamWickets: Math.min(Math.max(0, prev.battingTeamWickets + wickets), 10)
+    }));
+  };
+
   const getCurrentOver = (): Over => {
     const over = matchState.overs.find(over => over.number === matchState.currentOver);
     return over || createEmptyOver(matchState.currentOver);
@@ -141,9 +149,11 @@ export const useMatchState = () => {
 
   return {
     matchState,
+    setMatchState, // Expose setMatchState to allow direct updates
     handleTeamsUpdate,
     handleTossComplete,
     handleBallEvent,
+    updateWickets,
     getCurrentOver,
     getRunRate,
     toggleInningsTeam,

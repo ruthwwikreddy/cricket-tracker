@@ -14,6 +14,7 @@ const Index = () => {
     handleTeamsUpdate,
     handleTossComplete,
     handleBallEvent,
+    updateWickets,
     getCurrentOver,
     getRunRate,
     toggleInningsTeam,
@@ -35,8 +36,6 @@ const Index = () => {
   };
 
   const handleScoreChange = (runs: number) => {
-    const newScore = Math.max(0, matchState.battingTeamScore + runs);
-    
     // This is now handled through state updates rather than direct mutation
     handleBallEvent({
       runs: runs > 0 ? runs : 0,
@@ -47,8 +46,6 @@ const Index = () => {
   };
 
   const handleWicketChange = (wickets: number) => {
-    const newWickets = Math.min(Math.max(0, matchState.battingTeamWickets + wickets), 10);
-    
     if (wickets > 0) {
       handleBallEvent({
         runs: 0,
@@ -56,9 +53,8 @@ const Index = () => {
         wicketType: 'Other'
       });
     } else {
-      // Handle wicket removal (just for UI purposes)
-      const newState = { ...matchState };
-      newState.battingTeamWickets = newWickets;
+      // Use the updateWickets function for UI updates when reducing wickets
+      updateWickets(wickets);
     }
   };
 
