@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Team, Player, BallEvent, Over, MatchState, TossResult } from '@/types/cricket';
 import { toast } from "sonner";
@@ -105,7 +104,6 @@ export const useMatchState = () => {
     });
   };
 
-  // New function to update wickets directly (for UI purposes)
   const updateWickets = (wickets: number) => {
     setMatchState(prev => ({
       ...prev,
@@ -118,9 +116,9 @@ export const useMatchState = () => {
     return over || createEmptyOver(matchState.currentOver);
   };
 
-  const getRunRate = () => {
+  const getRunRate = (): string => {
     const totalOvers = matchState.currentOver - 1 + (matchState.currentBall / 6);
-    if (totalOvers === 0) return 0;
+    if (totalOvers === 0) return "0.00";
     return (matchState.battingTeamScore / totalOvers).toFixed(2);
   };
 
@@ -149,7 +147,7 @@ export const useMatchState = () => {
 
   return {
     matchState,
-    setMatchState, // Expose setMatchState to allow direct updates
+    setMatchState, 
     handleTeamsUpdate,
     handleTossComplete,
     handleBallEvent,
