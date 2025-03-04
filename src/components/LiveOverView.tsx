@@ -70,17 +70,18 @@ export const LiveOverView = ({
   };
 
   return (
-    <Card className="glass-card">
-      <CardHeader>
+    <Card className="glass-card border-cricket-red/20 relative overflow-hidden">
+      <div className="absolute inset-0 cricket-gradient opacity-30"></div>
+      <CardHeader className="relative z-10">
         <CardTitle className="text-xl font-semibold text-primary">Live Over</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 relative z-10">
         <div className="flex flex-wrap gap-2 justify-center">
           <div className="text-center">
             <p className="text-sm text-muted-foreground">Batting</p>
             <p className="font-medium">{battingTeam.name}</p>
           </div>
-          <div className="text-center mx-2">
+          <div className="text-center mx-4">
             <p className="text-sm text-muted-foreground">Over</p>
             <p className="font-medium">{currentOver.number}</p>
           </div>
@@ -94,10 +95,10 @@ export const LiveOverView = ({
           {currentOver.balls.map((ball, idx) => (
             <div 
               key={idx} 
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                ball.isWicket ? 'bg-destructive text-white' : 
-                ball.isExtra ? 'bg-yellow-200 text-yellow-800' : 
-                'bg-secondary text-secondary-foreground'
+              className={`cricket-ball ${
+                ball.isWicket ? 'bg-destructive' : 
+                ball.isExtra ? 'bg-yellow-700' : 
+                ''
               }`}
             >
               {getEventDescription(ball)}
@@ -106,7 +107,7 @@ export const LiveOverView = ({
           {Array.from({ length: 6 - currentOver.balls.length }).map((_, idx) => (
             <div 
               key={`empty-${idx}`} 
-              className="w-8 h-8 rounded-full flex items-center justify-center border border-dashed border-muted-foreground/40"
+              className="cricket-ball-empty"
             />
           ))}
         </div>
@@ -119,7 +120,7 @@ export const LiveOverView = ({
                 <Button
                   key={run}
                   variant={selectedRuns === run ? "default" : "outline"}
-                  className="w-10 h-10 p-0"
+                  className={`w-10 h-10 p-0 border-white/10 ${selectedRuns === run ? 'bg-primary hover:bg-primary/90' : 'hover:bg-primary/20 hover:text-white'}`}
                   onClick={() => handleRunsClick(run)}
                 >
                   {run}
@@ -135,7 +136,7 @@ export const LiveOverView = ({
                 setIsWicketMenuOpen(!isWicketMenuOpen);
                 setIsExtraMenuOpen(false);
               }}
-              className="flex-1"
+              className={`flex-1 ${isWicketMenuOpen ? 'bg-primary hover:bg-primary/90' : 'border-white/10 hover:bg-primary/20 hover:text-white'}`}
             >
               Wicket
             </Button>
@@ -145,7 +146,7 @@ export const LiveOverView = ({
                 setIsExtraMenuOpen(!isExtraMenuOpen);
                 setIsWicketMenuOpen(false);
               }}
-              className="flex-1"
+              className={`flex-1 ${isExtraMenuOpen ? 'bg-primary hover:bg-primary/90' : 'border-white/10 hover:bg-primary/20 hover:text-white'}`}
             >
               Extra
             </Button>
@@ -161,6 +162,7 @@ export const LiveOverView = ({
                     variant={selectedWicketType === type ? "default" : "outline"}
                     onClick={() => setSelectedWicketType(type as BallEvent['wicketType'])}
                     size="sm"
+                    className={`${selectedWicketType === type ? 'bg-primary hover:bg-primary/90' : 'border-white/10 hover:bg-primary/20 hover:text-white'}`}
                   >
                     {type}
                   </Button>
@@ -179,6 +181,7 @@ export const LiveOverView = ({
                     variant={selectedExtraType === type ? "default" : "outline"}
                     onClick={() => setSelectedExtraType(type as BallEvent['extraType'])}
                     size="sm"
+                    className={`${selectedExtraType === type ? 'bg-primary hover:bg-primary/90' : 'border-white/10 hover:bg-primary/20 hover:text-white'}`}
                   >
                     {type}
                   </Button>

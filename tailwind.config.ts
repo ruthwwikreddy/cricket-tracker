@@ -56,6 +56,12 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        cricket: {
+          red: "#DC2626",
+          darkRed: "#991B1B",
+          black: "#0A0A0A",
+          gray: "#1F1F1F",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -81,12 +87,25 @@ export default {
             transform: "translateY(0)"
           }
         },
+        "pulse-glow": {
+          "0%, 100%": {
+            opacity: "1"
+          },
+          "50%": {
+            opacity: "0.6"
+          }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.3s ease-out",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
       },
+      backgroundImage: {
+        'cricket-field': "url('/cricket-field-bg.png')",
+        'cricket-gradient': "linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3)), linear-gradient(to right, rgba(220, 38, 38, 0.3), rgba(0, 0, 0, 0.1))"
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

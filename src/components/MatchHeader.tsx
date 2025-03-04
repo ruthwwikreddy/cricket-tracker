@@ -20,15 +20,20 @@ export const MatchHeader = ({
   onSwitchInnings
 }: MatchHeaderProps) => {
   return (
-    <div className="text-center space-y-4">
-      <h1 className="text-4xl font-bold text-primary">Cricket Score Tracker</h1>
-      <p className="text-muted-foreground">Track live cricket scores with ease</p>
+    <div className="text-center space-y-4 relative">
+      <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent -z-10 transform -translate-y-1/2"></div>
+      <h1 className="text-5xl font-bold text-white relative inline-block">
+        <span className="text-primary">Cricket</span> Score Tracker
+        <div className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+      </h1>
+      <p className="text-muted-foreground">Track live cricket scores with precision</p>
       
-      <div className="flex justify-center gap-4">
+      <div className="flex justify-center gap-4 pt-2">
         {!showTossScreen && !gameStarted && (
           <Button 
             onClick={onToggleTeamManagement}
             variant={showTeamManagement ? "default" : "outline"}
+            className={showTeamManagement ? "" : "border-white/10 hover:bg-primary/20 hover:text-white"}
           >
             <Users className="mr-2 h-4 w-4" />
             {showTeamManagement ? 'Hide Team Management' : 'Team Management'}
@@ -39,6 +44,7 @@ export const MatchHeader = ({
           <Button 
             onClick={onStartGame}
             variant="default"
+            className="hover-glow"
           >
             <Play className="mr-2 h-4 w-4" />
             Start Match
@@ -46,7 +52,11 @@ export const MatchHeader = ({
         )}
         
         {gameStarted && (
-          <Button onClick={onSwitchInnings} variant="outline">
+          <Button 
+            onClick={onSwitchInnings} 
+            variant="outline" 
+            className="border-white/10 hover:bg-primary/20 hover:text-white"
+          >
             <Trophy className="mr-2 h-4 w-4" />
             Switch Innings
           </Button>

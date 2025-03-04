@@ -30,8 +30,9 @@ export const ScoreCard = ({
   };
 
   return (
-    <Card className="score-container">
-      <div className="space-y-4">
+    <Card className="score-container border-cricket-red/20 relative overflow-hidden">
+      <div className="absolute inset-0 cricket-gradient opacity-30"></div>
+      <div className="relative z-10 space-y-4">
         <h2 className="text-2xl font-semibold text-primary">{teamName}</h2>
         <div className="flex items-center justify-between">
           <div className={`score-digit ${isUpdating ? 'animate-score-update' : ''}`}>
@@ -49,6 +50,7 @@ export const ScoreCard = ({
                 variant="outline"
                 size="icon"
                 onClick={() => handleScoreChange(-1)}
+                className="border-white/10 hover:bg-primary/20 hover:text-white"
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -56,6 +58,7 @@ export const ScoreCard = ({
                 variant="outline"
                 size="icon"
                 onClick={() => handleScoreChange(1)}
+                className="border-white/10 hover:bg-primary/20 hover:text-white"
               >
                 <Plus className="h-4 w-4" />
               </Button>
@@ -68,6 +71,7 @@ export const ScoreCard = ({
                 variant="outline"
                 size="icon"
                 onClick={() => onWicketChange(-1)}
+                className="border-white/10 hover:bg-primary/20 hover:text-white"
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -75,6 +79,7 @@ export const ScoreCard = ({
                 variant="outline"
                 size="icon"
                 onClick={() => onWicketChange(1)}
+                className="border-white/10 hover:bg-primary/20 hover:text-white"
               >
                 <Plus className="h-4 w-4" />
               </Button>

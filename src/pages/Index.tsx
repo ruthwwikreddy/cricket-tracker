@@ -6,7 +6,6 @@ import { MatchHeader } from '@/components/MatchHeader';
 import { MatchScoreView } from '@/components/MatchScoreView';
 import { MatchProgress } from '@/components/MatchProgress';
 import { useMatchState } from '@/hooks/useMatchState';
-import { toast } from "sonner";
 
 const Index = () => {
   const {
@@ -36,7 +35,6 @@ const Index = () => {
   };
 
   const handleScoreChange = (runs: number) => {
-    // This is now handled through state updates rather than direct mutation
     handleBallEvent({
       runs: runs > 0 ? runs : 0,
       isWicket: false,
@@ -53,14 +51,15 @@ const Index = () => {
         wicketType: 'Other'
       });
     } else {
-      // Use the updateWickets function for UI updates when reducing wickets
       updateWickets(wickets);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-5xl mx-auto space-y-8">
+    <div className="min-h-screen bg-cricket-black py-8 px-4 sm:px-6 lg:px-8 relative">
+      <div className="absolute inset-0 bg-[url('/cricket-texture.jpg')] bg-cover bg-center opacity-5 mix-blend-overlay"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-cricket-red/5 to-cricket-black"></div>
+      <div className="max-w-5xl mx-auto space-y-8 relative z-10">
         <MatchHeader 
           gameStarted={matchState.gameStarted}
           showTeamManagement={showTeamManagement}
