@@ -29,6 +29,12 @@ export interface Over {
   complete: boolean;
 }
 
+export interface TossResult {
+  winner: number; // 0 or 1, index of the team that won the toss
+  choice: 'bat' | 'bowl'; // What the winning team chose to do
+  completed: boolean;
+}
+
 export interface MatchState {
   teams: [Team, Team];
   currentInningsTeamIndex: 0 | 1;
@@ -39,4 +45,6 @@ export interface MatchState {
   battingTeamWickets: number;
   currentBatsmen: [string | null, string | null]; // striker and non-striker
   currentBowler: string | null;
+  toss: TossResult | null;
+  gameStarted: boolean;
 }
