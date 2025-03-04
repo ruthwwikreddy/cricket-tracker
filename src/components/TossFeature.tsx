@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Coin, Check, X } from 'lucide-react';
+import { Coins, Check, X } from 'lucide-react';
 import { Team, TossResult } from '@/types/cricket';
 import { 
   Select, 
@@ -72,7 +72,7 @@ export const TossFeature = ({ teams, onTossComplete }: TossFeatureProps) => {
     <Card className="glass-card animate-fade-in">
       <CardHeader>
         <CardTitle className="text-xl font-semibold text-primary flex items-center gap-2">
-          <Coin className="h-5 w-5" /> Toss
+          <Coins className="h-5 w-5" /> Toss
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -109,7 +109,7 @@ export const TossFeature = ({ teams, onTossComplete }: TossFeatureProps) => {
                 className="w-full"
                 disabled={tossingInProgress || remainingTosses <= 0}
               >
-                <Coin className="mr-2 h-4 w-4" />
+                <Coins className="mr-2 h-4 w-4" />
                 {tossingInProgress ? "Tossing..." : `Toss Coin (${remainingTosses} left)`}
               </Button>
             </div>
