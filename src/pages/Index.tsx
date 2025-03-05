@@ -108,6 +108,7 @@ const Index = () => {
             battingTeamWickets={matchState.battingTeamWickets}
             toss={matchState.toss}
             runRate={getRunRate()}
+            overs={matchState.overs}
           />
         )}
       </div>

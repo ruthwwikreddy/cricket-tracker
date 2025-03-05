@@ -1,6 +1,7 @@
 
-import { Trophy } from 'lucide-react';
-import { Team, TossResult } from '@/types/cricket';
+import { Trophy, Download } from 'lucide-react';
+import { Team, TossResult, Over } from '@/types/cricket';
+import { ExportPdf } from './ExportPdf';
 
 interface MatchProgressProps {
   teams: [Team, Team];
@@ -11,6 +12,7 @@ interface MatchProgressProps {
   battingTeamWickets: number;
   toss: TossResult | null;
   runRate: string;
+  overs: Over[];
 }
 
 export const MatchProgress = ({
@@ -21,7 +23,8 @@ export const MatchProgress = ({
   battingTeamScore,
   battingTeamWickets,
   toss,
-  runRate
+  runRate,
+  overs
 }: MatchProgressProps) => {
   return (
     <div className="glass-card rounded-lg p-6 space-y-4 border-cricket-red/20 relative overflow-hidden">
@@ -65,6 +68,20 @@ export const MatchProgress = ({
             </span>
           </div>
         )}
+        
+        <div className="mt-4 flex justify-end">
+          <ExportPdf 
+            teams={teams}
+            currentInningsTeamIndex={currentInningsTeamIndex}
+            battingTeamScore={battingTeamScore}
+            battingTeamWickets={battingTeamWickets}
+            currentOver={currentOver}
+            currentBall={currentBall}
+            overs={overs}
+            toss={toss}
+            runRate={runRate}
+          />
+        </div>
       </div>
     </div>
   );
