@@ -61,10 +61,10 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-cricket-black py-8 px-4 sm:px-6 lg:px-8 relative">
+    <div className="min-h-screen bg-cricket-black py-4 px-3 sm:py-6 sm:px-4 lg:px-6 relative overflow-x-hidden">
       <div className="absolute inset-0 bg-[url('/cricket-texture.jpg')] bg-cover bg-center opacity-5 mix-blend-overlay"></div>
       <div className="absolute inset-0 bg-gradient-to-br from-cricket-red/5 to-cricket-black"></div>
-      <div className="max-w-5xl mx-auto space-y-8 relative z-10">
+      <div className="max-w-5xl mx-auto space-y-6 relative z-10">
         <MatchHeader 
           gameStarted={matchState.gameStarted}
           showTeamManagement={showTeamManagement}
@@ -89,32 +89,32 @@ const Index = () => {
         )}
 
         {matchState.gameStarted && (
-          <MatchScoreView
-            teams={matchState.teams}
-            currentInningsTeamIndex={matchState.currentInningsTeamIndex}
-            battingTeamScore={matchState.battingTeamScore}
-            battingTeamWickets={matchState.battingTeamWickets}
-            currentOver={matchState.currentOver}
-            currentBall={matchState.currentBall}
-            over={getCurrentOver()}
-            onScoreChange={handleScoreChange}
-            onWicketChange={handleWicketChange}
-            onBallEvent={handleBallEvent}
-          />
-        )}
-
-        {matchState.gameStarted && (
-          <MatchProgress
-            teams={matchState.teams}
-            currentInningsTeamIndex={matchState.currentInningsTeamIndex}
-            currentOver={matchState.currentOver}
-            currentBall={matchState.currentBall}
-            battingTeamScore={matchState.battingTeamScore}
-            battingTeamWickets={matchState.battingTeamWickets}
-            toss={matchState.toss}
-            runRate={getRunRate()}
-            overs={matchState.overs}
-          />
+          <div className="flex flex-col space-y-6">
+            <MatchScoreView
+              teams={matchState.teams}
+              currentInningsTeamIndex={matchState.currentInningsTeamIndex}
+              battingTeamScore={matchState.battingTeamScore}
+              battingTeamWickets={matchState.battingTeamWickets}
+              currentOver={matchState.currentOver}
+              currentBall={matchState.currentBall}
+              over={getCurrentOver()}
+              onScoreChange={handleScoreChange}
+              onWicketChange={handleWicketChange}
+              onBallEvent={handleBallEvent}
+            />
+            
+            <MatchProgress
+              teams={matchState.teams}
+              currentInningsTeamIndex={matchState.currentInningsTeamIndex}
+              currentOver={matchState.currentOver}
+              currentBall={matchState.currentBall}
+              battingTeamScore={matchState.battingTeamScore}
+              battingTeamWickets={matchState.battingTeamWickets}
+              toss={matchState.toss}
+              runRate={getRunRate()}
+              overs={matchState.overs}
+            />
+          </div>
         )}
       </div>
     </div>

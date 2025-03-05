@@ -45,11 +45,41 @@
   }
   body {
     @apply bg-background text-foreground font-inter antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  input, button {
+    @apply outline-none;
   }
 }
 
-.glass-card {
-  @apply bg-card/90 backdrop-blur-md border border-white/5 shadow-lg;
+@layer components {
+  .glass-card {
+    @apply bg-card/90 backdrop-blur-md border border-white/5 shadow-lg;
+  }
+  
+  .mobile-friendly-padding {
+    @apply p-3 sm:p-4 md:p-6;
+  }
+  
+  .responsive-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6;
+  }
+  
+  .responsive-text-base {
+    @apply text-sm sm:text-base;
+  }
+  
+  .responsive-text-lg {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+  
+  .responsive-text-xl {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  
+  .responsive-text-2xl {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
 }
 
 .animate-score-update {
@@ -70,21 +100,21 @@
 }
 
 .score-container {
-  @apply relative overflow-hidden rounded-xl glass-card p-6;
+  @apply relative overflow-hidden rounded-xl glass-card mobile-friendly-padding;
 }
 
 .score-digit {
-  @apply text-6xl font-bold transition-all duration-300;
+  @apply text-4xl sm:text-5xl md:text-6xl font-bold transition-all duration-300;
 }
 
 .cricket-ball {
-  @apply relative w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium;
+  @apply relative w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium;
   background: linear-gradient(135deg, rgba(220, 38, 38, 0.8) 0%, rgba(185, 28, 28, 0.9) 100%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .cricket-ball-empty {
-  @apply w-8 h-8 rounded-full flex items-center justify-center border border-dashed border-white/20;
+  @apply w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border border-dashed border-white/20;
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -99,4 +129,62 @@
 .cricket-gradient {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3)), 
               linear-gradient(to right, rgba(220, 38, 38, 0.3), rgba(0, 0, 0, 0.1));
+}
+
+/* Mobile scrolling improvements */
+.small-scrollbar {
+  scrollbar-width: thin;
+}
+
+.small-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.small-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.small-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* Fix for mobile select dropdown visibility */
+select option {
+  @apply bg-card text-foreground;
+}
+
+/* Fix for mobile tooltips */
+.tooltip {
+  visibility: visible;
+  @apply bg-black/80 text-white text-xs p-1 rounded z-50;
+}
+
+/* Fix for popup menus to ensure they're visible on mobile */
+.popup-menu {
+  @apply z-50 bg-card/95 backdrop-blur-md shadow-xl border border-white/10 rounded-lg;
+}
+
+@media (max-width: 640px) {
+  .mobile-stack {
+    @apply flex flex-col;
+  }
+  
+  .mobile-full {
+    @apply w-full;
+  }
+  
+  .mobile-center {
+    @apply text-center;
+  }
+  
+  .mobile-compact-btn {
+    @apply p-2 min-w-0;
+  }
+  
+  .mobile-padding-adjust {
+    @apply px-2 py-1;
+  }
 }

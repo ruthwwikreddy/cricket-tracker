@@ -23,36 +23,39 @@ export const MatchHeader = ({
   const { user, signOut } = useAuth();
 
   return (
-    <div className="text-center space-y-4 relative">
+    <div className="text-center space-y-3 sm:space-y-4 relative">
       <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent -z-10 transform -translate-y-1/2"></div>
+      
       <div className="flex justify-end absolute top-0 right-0">
         {user && (
           <Button 
             onClick={signOut}
             variant="outline" 
             size="sm"
-            className="border-white/10 hover:bg-primary/20 hover:text-white"
+            className="border-white/10 hover:bg-primary/20 hover:text-white text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-4"
           >
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
+            <LogOut className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Sign Out</span>
           </Button>
         )}
       </div>
-      <h1 className="text-5xl font-bold text-white relative inline-block">
-        <span className="text-primary">Cricket</span> Score Tracker
+      
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white relative inline-block">
+        <span className="text-primary">Cricket</span> Score
         <div className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
       </h1>
-      <p className="text-muted-foreground">Track live cricket scores with precision</p>
+      <p className="text-xs sm:text-sm text-muted-foreground">Track live cricket scores with precision</p>
       
-      <div className="flex justify-center gap-4 pt-2">
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-4 pt-2">
         {!showTossScreen && !gameStarted && (
           <Button 
             onClick={onToggleTeamManagement}
             variant={showTeamManagement ? "default" : "outline"}
-            className={showTeamManagement ? "" : "border-white/10 hover:bg-primary/20 hover:text-white"}
+            size="sm"
+            className={`text-xs sm:text-sm ${showTeamManagement ? "" : "border-white/10 hover:bg-primary/20 hover:text-white"}`}
           >
-            <Users className="mr-2 h-4 w-4" />
-            {showTeamManagement ? 'Hide Team Management' : 'Team Management'}
+            <Users className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+            {showTeamManagement ? 'Hide Teams' : 'Teams'}
           </Button>
         )}
         
@@ -60,9 +63,10 @@ export const MatchHeader = ({
           <Button 
             onClick={onStartGame}
             variant="default"
-            className="hover-glow"
+            size="sm"
+            className="hover-glow text-xs sm:text-sm"
           >
-            <Play className="mr-2 h-4 w-4" />
+            <Play className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
             Start Match
           </Button>
         )}
@@ -70,10 +74,11 @@ export const MatchHeader = ({
         {gameStarted && (
           <Button 
             onClick={onSwitchInnings} 
-            variant="outline" 
-            className="border-white/10 hover:bg-primary/20 hover:text-white"
+            variant="outline"
+            size="sm" 
+            className="border-white/10 hover:bg-primary/20 hover:text-white text-xs sm:text-sm"
           >
-            <Trophy className="mr-2 h-4 w-4" />
+            <Trophy className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
             Switch Innings
           </Button>
         )}

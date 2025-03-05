@@ -29,7 +29,7 @@ export const MatchScoreView = ({
   onBallEvent
 }: MatchScoreViewProps) => {
   return (
-    <div className="grid gap-8 md:grid-cols-2">
+    <div className="responsive-grid">
       <ScoreCard
         teamName={teams[currentInningsTeamIndex].name}
         score={battingTeamScore}

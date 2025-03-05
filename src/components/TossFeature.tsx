@@ -71,35 +71,37 @@ export const TossFeature = ({ teams, onTossComplete }: TossFeatureProps) => {
   return (
     <Card className="glass-card border-cricket-red/20 relative overflow-hidden animate-fade-in">
       <div className="absolute inset-0 cricket-gradient opacity-30"></div>
-      <CardHeader className="relative z-10">
-        <CardTitle className="text-xl font-semibold text-primary flex items-center gap-2">
-          <Coins className="h-5 w-5" /> Toss
+      <CardHeader className="relative z-10 mobile-friendly-padding">
+        <CardTitle className="text-lg sm:text-xl font-semibold text-primary flex items-center gap-2">
+          <Coins className="h-4 w-4 sm:h-5 sm:w-5" /> Toss
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium">Toss Winner</h3>
+      <CardContent className="space-y-4 sm:space-y-6 relative z-10 px-3 sm:px-4 pb-3 sm:pb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+          <div className="space-y-2 sm:space-y-3">
+            <h3 className="text-xs sm:text-sm font-medium">Toss Winner</h3>
             
             <div className="flex gap-2">
               <Button 
                 onClick={() => manuallySelectWinner(0)}
                 variant={tossWinner === 0 ? "default" : "outline"}
-                className={`flex-1 ${tossWinner === 0 ? "" : "border-white/10 hover:bg-primary/20 hover:text-white"}`}
+                size="sm"
+                className={`flex-1 text-xs sm:text-sm ${tossWinner === 0 ? "" : "border-white/10 hover:bg-primary/20 hover:text-white"}`}
                 disabled={tossingInProgress}
               >
                 {teams[0].name}
-                {tossWinner === 0 && <Check className="ml-2 h-4 w-4" />}
+                {tossWinner === 0 && <Check className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />}
               </Button>
               
               <Button 
                 onClick={() => manuallySelectWinner(1)}
                 variant={tossWinner === 1 ? "default" : "outline"}
-                className={`flex-1 ${tossWinner === 1 ? "" : "border-white/10 hover:bg-primary/20 hover:text-white"}`}
+                size="sm"
+                className={`flex-1 text-xs sm:text-sm ${tossWinner === 1 ? "" : "border-white/10 hover:bg-primary/20 hover:text-white"}`}
                 disabled={tossingInProgress}
               >
                 {teams[1].name}
-                {tossWinner === 1 && <Check className="ml-2 h-4 w-4" />}
+                {tossWinner === 1 && <Check className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />}
               </Button>
             </div>
             
@@ -107,24 +109,25 @@ export const TossFeature = ({ teams, onTossComplete }: TossFeatureProps) => {
               <Button 
                 onClick={conductToss} 
                 variant="secondary" 
-                className="w-full bg-black/20 hover:bg-black/30 text-white"
+                size="sm"
+                className="w-full bg-black/20 hover:bg-black/30 text-white text-xs sm:text-sm"
                 disabled={tossingInProgress || remainingTosses <= 0}
               >
-                <Coins className="mr-2 h-4 w-4" />
+                <Coins className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                 {tossingInProgress ? "Tossing..." : `Toss Coin (${remainingTosses} left)`}
               </Button>
             </div>
           </div>
           
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium">Winner's Choice</h3>
+          <div className="space-y-2 sm:space-y-3">
+            <h3 className="text-xs sm:text-sm font-medium">Winner's Choice</h3>
             
             <Select 
               value={choice} 
               onValueChange={(value) => setChoice(value as 'bat' | 'bowl')}
               disabled={tossWinner === null || tossingInProgress}
             >
-              <SelectTrigger className="bg-black/20 border-white/10">
+              <SelectTrigger className="bg-black/20 border-white/10 text-xs sm:text-sm h-9">
                 <SelectValue placeholder="Choose" />
               </SelectTrigger>
               <SelectContent>
@@ -136,18 +139,19 @@ export const TossFeature = ({ teams, onTossComplete }: TossFeatureProps) => {
             <Button 
               onClick={confirmToss} 
               variant="default" 
-              className="w-full hover-glow"
+              size="sm"
+              className="w-full hover-glow text-xs sm:text-sm"
               disabled={tossWinner === null || tossingInProgress}
             >
-              <Check className="mr-2 h-4 w-4" />
+              <Check className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
               Confirm & Start Match
             </Button>
           </div>
         </div>
 
         {tossWinner !== null && (
-          <div className="mt-4 p-3 bg-primary/10 backdrop-blur-sm rounded-md text-center">
-            <p className="font-medium">
+          <div className="mt-2 sm:mt-4 p-2 sm:p-3 bg-primary/10 backdrop-blur-sm rounded-md text-center">
+            <p className="font-medium text-xs sm:text-sm">
               {teams[tossWinner].name} {tossingInProgress ? "winning" : "won"} the toss 
               {!tossingInProgress && choice && ` and chose to ${choice} first`}
             </p>
