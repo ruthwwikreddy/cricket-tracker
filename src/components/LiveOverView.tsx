@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Plus, Minus, AlertCircle } from 'lucide-react';
 import { BallEvent, Over, Team, Player } from '@/types/cricket';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface LiveOverViewProps {
   teams: [Team, Team];
@@ -23,6 +24,8 @@ export const LiveOverView = ({
   const [isExtraMenuOpen, setIsExtraMenuOpen] = useState(false);
   const [selectedWicketType, setSelectedWicketType] = useState<BallEvent['wicketType'] | null>(null);
   const [selectedExtraType, setSelectedExtraType] = useState<BallEvent['extraType'] | null>(null);
+  const [selectedBatsman, setSelectedBatsman] = useState<string | null>(null);
+  const [selectedBowler, setSelectedBowler] = useState<string | null>(null);
 
   const battingTeam = teams[currentInningsTeamIndex];
   const bowlingTeam = teams[currentInningsTeamIndex === 0 ? 1 : 0];
@@ -32,7 +35,7 @@ export const LiveOverView = ({
   };
 
   const handleBallSubmit = () => {
-    if (selectedRuns === null && !selectedWicketType && !selectedExtraType) return;
+    if ((selectedRuns === null && !selectedWicketType && !selectedExtraType) || !selectedBatsman || !selectedBowler) return;
 
     const ballEvent: BallEvent = {
       runs: selectedRuns ?? 0,
@@ -41,6 +44,8 @@ export const LiveOverView = ({
       isExtra: !!selectedExtraType,
       extraType: selectedExtraType ?? undefined,
       extraRuns: selectedExtraType ? 1 : 0, // Default extra runs
+      batsmanId: selectedBatsman,
+      bowlerId: selectedBowler
     };
 
     onBallEvent(ballEvent);
@@ -110,6 +115,45 @@ export const LiveOverView = ({
               className="cricket-ball-empty"
             />
           ))}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-sm font-medium mb-2 block">Batsman</label>
+            <Select 
+              value={selectedBatsman || ""} 
+              onValueChange={setSelectedBatsman}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select batsman" />
+              </SelectTrigger>
+              <SelectContent>
+                {battingTeam.players.map(player => (
+                  <SelectItem key={player.id} value={player.id}>
+                    {player.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <label className="text-sm font-medium mb-2 block">Bowler</label>
+            <Select 
+              value={selectedBowler || ""} 
+              onValueChange={setSelectedBowler}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select bowler" />
+              </SelectTrigger>
+              <SelectContent>
+                {bowlingTeam.players.map(player => (
+                  <SelectItem key={player.id} value={player.id}>
+                    {player.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -193,7 +237,7 @@ export const LiveOverView = ({
           <Button 
             className="w-full" 
             onClick={handleBallSubmit}
-            disabled={selectedRuns === null && !selectedWicketType && !selectedExtraType}
+            disabled={!selectedBatsman || !selectedBowler || (selectedRuns === null && !selectedWicketType && !selectedExtraType)}
           >
             Record Ball
           </Button>

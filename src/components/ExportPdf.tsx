@@ -5,6 +5,21 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { Team, Over, TossResult } from "@/types/cricket";
 
+interface PlayerBattingStat {
+  playerId: string;
+  playerName: string;
+  runs: number;
+  balls: number;
+}
+
+interface PlayerBowlingStat {
+  playerId: string;
+  playerName: string;
+  wickets: number;
+  overs: string;
+  runs: number;
+}
+
 interface ExportPdfProps {
   teams: [Team, Team];
   currentInningsTeamIndex: 0 | 1;
@@ -15,6 +30,8 @@ interface ExportPdfProps {
   overs: Over[];
   toss: TossResult | null;
   runRate: string;
+  battingStats?: PlayerBattingStat[];
+  bowlingStats?: PlayerBowlingStat[];
 }
 
 export const ExportPdf = ({
@@ -27,6 +44,8 @@ export const ExportPdf = ({
   overs,
   toss,
   runRate,
+  battingStats,
+  bowlingStats,
 }: ExportPdfProps) => {
   const exportToPdf = () => {
     const doc = new jsPDF();
@@ -58,15 +77,61 @@ export const ExportPdf = ({
     doc.text(`Overs: ${currentOver - 1}.${currentBall}`, 20, 80);
     doc.text(`Run Rate: ${runRate}`, 20, 90);
     
+    // Add batting stats
+    if (battingStats && battingStats.length > 0) {
+      doc.setFontSize(16);
+      doc.text(`Batting Statistics`, 20, 105);
+      
+      autoTable(doc, {
+        startY: 110,
+        head: [['Batsman', 'Runs', 'Balls', 'Strike Rate']],
+        body: battingStats.map(player => [
+          player.playerName, 
+          player.runs.toString(), 
+          player.balls.toString(), 
+          player.balls > 0 ? ((player.runs / player.balls) * 100).toFixed(1) : '0'
+        ]),
+        theme: 'grid',
+        styles: { fontSize: 12 },
+        headStyles: { fillColor: [220, 38, 38] },
+      });
+    }
+    
+    // Add bowling stats
+    if (bowlingStats && bowlingStats.length > 0) {
+      const battingTableHeight = battingStats ? (battingStats.length * 10 + 10) : 0;
+      doc.setFontSize(16);
+      doc.text(`Bowling Statistics`, 20, 120 + battingTableHeight);
+      
+      autoTable(doc, {
+        startY: 125 + battingTableHeight,
+        head: [['Bowler', 'Overs', 'Runs', 'Wickets', 'Economy']],
+        body: bowlingStats.map(player => [
+          player.playerName, 
+          player.overs, 
+          player.runs.toString(), 
+          player.wickets.toString(),
+          parseFloat(player.overs) > 0 ? (player.runs / parseFloat(player.overs)).toFixed(1) : '0'
+        ]),
+        theme: 'grid',
+        styles: { fontSize: 12 },
+        headStyles: { fillColor: [220, 38, 38] },
+      });
+    }
+    
     // Add team lineups
+    const statsTableHeight = (battingStats ? (battingStats.length * 10 + 10) : 0) + 
+                             (bowlingStats ? (bowlingStats.length * 10 + 20) : 0);
+    
+    doc.addPage();
     doc.setFontSize(16);
-    doc.text(`Team Lineups`, 20, 105);
+    doc.text(`Team Lineups`, 20, 20);
     
     // Team 1 players
     doc.setFontSize(14);
-    doc.text(`${teams[0].name}:`, 20, 115);
+    doc.text(`${teams[0].name}:`, 20, 30);
     autoTable(doc, {
-      startY: 120,
+      startY: 35,
       head: [['Name', 'Role']],
       body: teams[0].players.map(player => [player.name, player.role]),
       theme: 'grid',
@@ -75,10 +140,10 @@ export const ExportPdf = ({
     });
     
     // Team 2 players
-    const team1TableHeight = teams[0].players.length * 10 + 10; // Estimate table height
-    doc.text(`${teams[1].name}:`, 20, 125 + team1TableHeight);
+    const team1TableHeight = teams[0].players.length * 10 + 10;
+    doc.text(`${teams[1].name}:`, 20, 45 + team1TableHeight);
     autoTable(doc, {
-      startY: 130 + team1TableHeight,
+      startY: 50 + team1TableHeight,
       head: [['Name', 'Role']],
       body: teams[1].players.map(player => [player.name, player.role]),
       theme: 'grid',

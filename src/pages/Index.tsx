@@ -17,7 +17,8 @@ const Index = () => {
     getCurrentOver,
     getRunRate,
     toggleInningsTeam,
-    startGame
+    startGame,
+    getPlayerScores
   } = useMatchState();
 
   const [showTeamManagement, setShowTeamManagement] = useState(false);
@@ -39,7 +40,9 @@ const Index = () => {
       runs: runs > 0 ? runs : 0,
       isWicket: false,
       extraRuns: runs < 0 ? Math.abs(runs) : 0,
-      isExtra: false
+      isExtra: false,
+      batsmanId: matchState.currentBatsmen[0],
+      bowlerId: matchState.currentBowler
     });
   };
 
@@ -48,7 +51,9 @@ const Index = () => {
       handleBallEvent({
         runs: 0,
         isWicket: true,
-        wicketType: 'Other'
+        wicketType: 'Other',
+        batsmanId: matchState.currentBatsmen[0],
+        bowlerId: matchState.currentBowler
       });
     } else {
       updateWickets(wickets);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Team, Player, BallEvent, Over, MatchState, TossResult } from '@/types/cricket';
+import { Team, Player, BallEvent, Over, MatchState, TossResult, PlayerScore } from '@/types/cricket';
 import { toast } from "sonner";
 
 const createEmptyOver = (number: number): Over => ({
@@ -33,14 +33,35 @@ export const useMatchState = () => {
     currentBatsmen: [null, null],
     currentBowler: null,
     toss: null,
-    gameStarted: false
+    gameStarted: false,
+    playerScores: []
   });
 
   const handleTeamsUpdate = (teams: [Team, Team]) => {
-    setMatchState(prev => ({
-      ...prev,
-      teams
-    }));
+    setMatchState(prev => {
+      // Initialize player scores for all players in both teams
+      const playerScores: PlayerScore[] = [];
+      
+      teams.forEach(team => {
+        team.players.forEach(player => {
+          playerScores.push({
+            playerId: player.id,
+            playerName: player.name,
+            runs: 0,
+            ballsFaced: 0,
+            wicketsTaken: 0,
+            ballsBowled: 0,
+            runsGiven: 0
+          });
+        });
+      });
+      
+      return {
+        ...prev,
+        teams,
+        playerScores
+      };
+    });
   };
 
   const handleTossComplete = (tossResult: TossResult) => {
@@ -81,6 +102,30 @@ export const useMatchState = () => {
       newState.battingTeamScore += event.runs + (event.extraRuns || 0);
       if (event.isWicket) {
         newState.battingTeamWickets += 1;
+      }
+      
+      // Update player scores
+      if (event.batsmanId) {
+        const batsmanIndex = newState.playerScores.findIndex(p => p.playerId === event.batsmanId);
+        if (batsmanIndex !== -1) {
+          newState.playerScores[batsmanIndex].runs += event.runs;
+          if (!event.isExtra || (event.extraType !== 'Wide' && event.extraType !== 'No Ball')) {
+            newState.playerScores[batsmanIndex].ballsFaced += 1;
+          }
+        }
+      }
+      
+      if (event.bowlerId) {
+        const bowlerIndex = newState.playerScores.findIndex(p => p.playerId === event.bowlerId);
+        if (bowlerIndex !== -1) {
+          newState.playerScores[bowlerIndex].runsGiven += event.runs + (event.extraRuns || 0);
+          if (!event.isExtra || (event.extraType !== 'Wide' && event.extraType !== 'No Ball')) {
+            newState.playerScores[bowlerIndex].ballsBowled += 1;
+          }
+          if (event.isWicket && event.wicketType !== 'Run Out') {
+            newState.playerScores[bowlerIndex].wicketsTaken += 1;
+          }
+        }
       }
       
       // Check if over is complete (6 legal deliveries)
@@ -136,6 +181,14 @@ export const useMatchState = () => {
     }));
   };
 
+  const getPlayerScores = () => {
+    return matchState.playerScores;
+  };
+
+  const getPlayerScore = (playerId: string) => {
+    return matchState.playerScores.find(p => p.playerId === playerId) || null;
+  };
+
   const startGame = () => {
     // Validate teams have enough players
     if (matchState.teams[0].players.length < 2 || matchState.teams[1].players.length < 2) {
@@ -155,6 +208,8 @@ export const useMatchState = () => {
     getCurrentOver,
     getRunRate,
     toggleInningsTeam,
-    startGame
+    startGame,
+    getPlayerScores,
+    getPlayerScore
   };
 };

@@ -1,4 +1,3 @@
-
 export interface Player {
   id: string;
   name: string;
@@ -10,6 +9,16 @@ export interface Team {
   id: string;
   name: string;
   players: Player[];
+}
+
+export interface PlayerScore {
+  playerId: string;
+  playerName: string;
+  runs: number;
+  ballsFaced: number;
+  wicketsTaken: number;
+  ballsBowled: number;
+  runsGiven: number;
 }
 
 export interface BallEvent {
@@ -47,4 +56,5 @@ export interface MatchState {
   currentBowler: string | null;
   toss: TossResult | null;
   gameStarted: boolean;
+  playerScores: PlayerScore[];
 }
